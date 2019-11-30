@@ -1,0 +1,14 @@
+.Person {
+  display: inline-block;
+  width: 25%;
+  margin: 10px;
+  box-shadow: 4px 4px 15px 1px #000000;
+  border: 1px dashed #ccc;
+  border-top-left-radius: 90px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 90px;
+  border-bottom-left-radius: 6px;
+  padding: 16px;
+  text-align: center;
+  cursor: grabbing;
+}
