@@ -1,16 +1,49 @@
 import React, { Component } from "react";
+import styled from "styled-components";
+//import Radium, { StyleRoot } from "radium"; // styleroot is for using mediaqueries and using with class at the same time
 import { Add, Multiply, Subtract, Divide } from "./Components/Calculator";
 import Person from "./Components/Person";
 import "./App.css";
 
+// we use styled dynamic css rules with adding props in to created our stylecomponent.
+const MyStyledButton = styled.button`
+  box-shadow: 0px 10px 14px -7px #276873;
+  background-color: ${props => (props.alt ? "green" : "red")};
+  border-radius: 8px;
+  display: inline-block;
+  cursor: pointer;
+  color: white;
+  font-family: Arial;
+  font-weight: bold;
+  padding: 13px 32px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #3d768a;
+
+  &:hover {
+    background-color: ${props => (props.alt ? "lightgreen" : "salmon")};
+    color: black;
+  }
+`;
 
 class App extends Component {
   // "id" is unique. React check the id and dont render whole page
   // only render that changed value. Make a "key"is more efficient.
   state = {
     persons: [
-      { id: Math.random().toString(36).substr(2, 16), name: "Erdinc", age: 30 },
-      { id: Math.random().toString(36).substr(2, 16), name: "Tugba", age: 33 }
+      {
+        id: Math.random()
+          .toString(36)
+          .substr(2, 16),
+        name: "Erdinc",
+        age: 30
+      },
+      {
+        id: Math.random()
+          .toString(36)
+          .substr(2, 16),
+        name: "Tugba",
+        age: 33
+      }
     ]
   };
 
@@ -61,24 +94,40 @@ class App extends Component {
       listStyleType: "none",
       border: "1px solid black"
     };
-    const myButton = {
-      boxShadow: "0px 10px 14px -7px #276873",
-      background: "linear-gradient(to bottom, #599bb3 5%, #408c99 100%)",
-      backgroundColor: "#599bb3",
-      borderRadius: "8px",
-      display: "inline-block",
-      cursor: "pointer",
-      color: "#ffffff",
-      fontFamily: "Arial",
-      fontWeight: "bold",
-      padding: "13px 32px",
-      textDecoration: "none",
-      textShadow: "0px 1px 0px #3d768a"
-    };
+
+    let persons = null;
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return (
+              <Person
+                click={() => this.deletePersonHandler(index)}
+                name={person.name}
+                age={person.age}
+                key={person.id}
+                changed={event => this.nameChangeHandler(event, person.id)}
+              />
+            );
+          })}
+        </div>
+      );
+    }
+
+    const classes = [];
+
+    if (this.state.persons.length >= 2) {
+      classes.push("red"); // class=red
+    }
+
+    if (this.state.persons.length >= 1) {
+      classes.push("bold"); // class= red bold
+    }
 
     return (
+      // <StyleRoot>
       <div className="App">
-        <h1>Hello CodeSandbox</h1>
+        {/* <h1>Hello CodeSandbox</h1>
         <hr />
         <ul>
           <li style={colorLi}>Hello {getHour}</li>
@@ -88,30 +137,20 @@ class App extends Component {
           <li>{Divide(1, 2)}</li>
           <li>hello sandbox</li>
         </ul>
-        <hr />
-
-        <button style={myButton}
-         onClick={this.togglePersonsHandler}>
+        <hr /> */}
+        <p className={classes.join(" ")}> Hello</p>
+        <MyStyledButton
+          alt={this.state.persons.length}
+          onClick={this.togglePersonsHandler}
+        >
           Toggle Person
-        </button>
-        {this.state.showPersons ? (
-          <div>
-            {this.state.persons.map((person, index) => {
-              return (
-                <Person
-                  click={() => this.deletePersonHandler(index)}
-                  name={person.name}
-                  age={person.age}
-                  key={person.id}
-                  changed={event => this.nameChangeHandler(event, person.id)}
-                />
-              );
-            })}
-          </div>
-        ) : null}
+        </MyStyledButton>
+        {persons}
       </div>
+      // </StyleRoot>
     );
   }
 }
 
 export default App;
+//export default Radium(App);
