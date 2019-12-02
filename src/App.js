@@ -3,32 +3,55 @@ import { Add, Multiply, Subtract, Divide } from "./Components/Calculator";
 import Person from "./Components/Person";
 import "./App.css";
 
+
 class App extends Component {
+  // "id" is unique. React check the id and dont render whole page
+  // only render that changed value. Make a "key"is more efficient.
   state = {
     persons: [
-      { name: "Erdinc", age: 30 },
-      { name: "Tugba", age: 33 }
+      { id: Math.random().toString(36).substr(2, 16), name: "Erdinc", age: 30 },
+      { id: Math.random().toString(36).substr(2, 16), name: "Tugba", age: 33 }
     ]
   };
 
-  switchNameHandler = newName => {
-    // this.state.persons[0].name="Salih"
-    this.setState({
-      persons: [
-        { name: newName, age: 5 },
-        { name: "Melih", age: 2 }
-      ]
+  // there is a difference between render() {} and arrow function (render()=>{}).
+  // If we use arrow function we can use "this" and it refers the function.
+  nameChangeHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
     });
+
+    // this is modern way to add personIndex to persons
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    // alternative way to add personIndex to the object
+    //const person=Object.assign({},this.state.persons[personIndex]);
+
+    // event.target.value waits response from users such as input
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
   };
-  // there is difference between render() {} and arrow function. If we use arrow function we can use "this" and it refers the function.
-  // event.target.value waits response from users such as input
-  nameChangeHandler = event => {
-    this.setState({
-      persons: [
-        { name: "Salih", age: 5 },
-        { name: event.target.value, age: 2 }
-      ]
-    });
+
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow });
+  };
+
+  deletePersonHandler = personIndex => {
+    //const persons = this.state.persons;
+
+    // make an array with all persons values with spread operators(...)
+    // it makes value of current array. not this [[1,2,3],4], but [1,2,3,4]
+    // this is more safer copying something to new variable.
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({ persons: persons });
   };
 
   render() {
@@ -66,23 +89,26 @@ class App extends Component {
           <li>hello sandbox</li>
         </ul>
         <hr />
-        // "this" is switchNameHandler function. Callback function is depend on
-        you and project size.Because react render one more time if we use it. It
-        is not efficient.
-        <button style={myButton} onClick={() => this.switchNameHandler("Salih")}>
-          Switch Name
+
+        <button style={myButton}
+         onClick={this.togglePersonsHandler}>
+          Toggle Person
         </button>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-          click={this.switchNameHandler.bind(this, "Salih!!")}
-        />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          changed={this.nameChangeHandler}>
-          My hobbies:
-        </Person>
+        {this.state.showPersons ? (
+          <div>
+            {this.state.persons.map((person, index) => {
+              return (
+                <Person
+                  click={() => this.deletePersonHandler(index)}
+                  name={person.name}
+                  age={person.age}
+                  key={person.id}
+                  changed={event => this.nameChangeHandler(event, person.id)}
+                />
+              );
+            })}
+          </div>
+        ) : null}
       </div>
     );
   }

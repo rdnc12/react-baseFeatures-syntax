@@ -10,5 +10,6 @@
   border-bottom-left-radius: 6px;
   padding: 16px;
   text-align: center;
+  text-shadow: -1px 5px 9px rgba(150, 150, 150, 0.96);
   cursor: grabbing;
 }
