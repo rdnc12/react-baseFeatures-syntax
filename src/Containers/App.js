@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-//import styled from "styled-components";
-//import Radium, { StyleRoot } from "radium"; // styleroot is for using mediaqueries and using with class at the same time
-import Person from "./Components/Person";
+import Persons from "../Components/Persons/Persons";
+import Cockpit from "../Components/Cockpit/Cockpit";
 import classes from "./App.module.css";
-import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 // we use styled dynamic css rules with adding props in to created our stylecomponent.
 
@@ -73,47 +71,20 @@ class App extends Component {
     let persons = null;
     if (this.state.showPersons) {
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return (
-              <ErrorBoundary key={person.id} >
-                <Person
-                  click={() => this.deletePersonHandler(index)}
-                  name={person.name}
-                  age={person.age}
-                  changed={event => this.nameChangeHandler(event, person.id)}
-                />
-              </ErrorBoundary>
-            );
-          })}
-        </div>
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangeHandler}
+        />
       );
     }
-
-    const classesAssign = [];
-
-    if (this.state.persons.length >= 2) {
-      classesAssign.push(classes.red); // class=red
-    }
-
-    if (this.state.persons.length >= 1) {
-      classesAssign.push(classes.bold); // class= red bold
-    }
-
     return (
-      // <StyleRoot>
       <div className={classes.App}>
-        <p className={classesAssign.join(" ")}> Hello</p>
-        <button
-          className={classes.myButton}
-          alt={this.state.persons.length}
-          onClick={this.togglePersonsHandler}
-        >
-          Toggle Person
-        </button>
+        <Cockpit 
+        persons={this.state.persons}
+        clicked={this.togglePersonsHandler} />
         {persons}
       </div>
-      // </StyleRoot>
     );
   }
 }

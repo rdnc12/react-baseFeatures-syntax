@@ -6,6 +6,14 @@ import React, { Component } from "react";
 // that  want to be checked. We use it for cases where we know that it
 // might fail and you can't control that. For instance, we add an outer element
 // in our case, outer element is person.id.
+/* <ErrorBoundary key={person.id} >
+<Person
+click={() => this.deletePersonHandler(index)}
+name={person.name}
+age={person.age}
+changed={event => this.nameChangeHandler(event, person.id)}
+/>
+</ErrorBoundary> */
 class ErrorBoundary extends Component {
   state = {
     hasError: false,
