@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 //import styled from "styled-components";
 //import Radium, { StyleRoot } from "radium"; // styleroot is for using mediaqueries and using with class at the same time
-import { Add, Multiply, Subtract, Divide } from "./Components/Calculator";
 import Person from "./Components/Person";
-import "./App.css";
+import classes from "./App.module.css";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 // we use styled dynamic css rules with adding props in to created our stylecomponent.
 
@@ -70,59 +70,42 @@ class App extends Component {
   };
 
   render() {
-    const getHour = new Date().getHours();
-    const colorLi = {
-      color: "red",
-      listStyleType: "none",
-      border: "1px solid black"
-    };
-
     let persons = null;
     if (this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
             return (
-              <Person
-                click={() => this.deletePersonHandler(index)}
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                changed={event => this.nameChangeHandler(event, person.id)}
-              />
+              <ErrorBoundary key={person.id} >
+                <Person
+                  click={() => this.deletePersonHandler(index)}
+                  name={person.name}
+                  age={person.age}
+                  changed={event => this.nameChangeHandler(event, person.id)}
+                />
+              </ErrorBoundary>
             );
           })}
         </div>
       );
     }
 
-    const classes = [];
+    const classesAssign = [];
 
     if (this.state.persons.length >= 2) {
-      classes.push("red"); // class=red
+      classesAssign.push(classes.red); // class=red
     }
 
     if (this.state.persons.length >= 1) {
-      classes.push("bold"); // class= red bold
+      classesAssign.push(classes.bold); // class= red bold
     }
 
     return (
       // <StyleRoot>
-      <div className="App">
-        {/* <h1>Hello CodeSandbox</h1>
-        <hr />
-        <ul>
-          <li style={colorLi}>Hello {getHour}</li>
-          <li>{Add(1, 2)}</li>
-          <li>{Multiply(1, 2)}</li>
-          <li>{Subtract(1, 2)}</li>
-          <li>{Divide(1, 2)}</li>
-          <li>hello sandbox</li>
-        </ul>
-        <hr /> */}
-        <p className={classes.join(" ")}> Hello</p>
+      <div className={classes.App}>
+        <p className={classesAssign.join(" ")}> Hello</p>
         <button
-          className="myButton"
+          className={classes.myButton}
           alt={this.state.persons.length}
           onClick={this.togglePersonsHandler}
         >

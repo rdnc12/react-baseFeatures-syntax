@@ -1,4 +1,4 @@
-/* .Person {
+.Person {
   display: inline-block;
   width: 25%;
   margin: 10px;
@@ -12,4 +12,4 @@
   text-align: center;
   text-shadow: -1px 5px 9px rgba(150, 150, 150, 0.96);
   cursor: grabbing;
-} */
+}
