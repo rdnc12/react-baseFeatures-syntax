@@ -1,29 +1,11 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+//import styled from "styled-components";
 //import Radium, { StyleRoot } from "radium"; // styleroot is for using mediaqueries and using with class at the same time
 import { Add, Multiply, Subtract, Divide } from "./Components/Calculator";
 import Person from "./Components/Person";
 import "./App.css";
 
 // we use styled dynamic css rules with adding props in to created our stylecomponent.
-const MyStyledButton = styled.button`
-  box-shadow: 0px 10px 14px -7px #276873;
-  background-color: ${props => (props.alt ? "green" : "red")};
-  border-radius: 8px;
-  display: inline-block;
-  cursor: pointer;
-  color: white;
-  font-family: Arial;
-  font-weight: bold;
-  padding: 13px 32px;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #3d768a;
-
-  &:hover {
-    background-color: ${props => (props.alt ? "lightgreen" : "salmon")};
-    color: black;
-  }
-`;
 
 class App extends Component {
   // "id" is unique. React check the id and dont render whole page
@@ -139,12 +121,13 @@ class App extends Component {
         </ul>
         <hr /> */}
         <p className={classes.join(" ")}> Hello</p>
-        <MyStyledButton
+        <button
+          className="myButton"
           alt={this.state.persons.length}
           onClick={this.togglePersonsHandler}
         >
           Toggle Person
-        </MyStyledButton>
+        </button>
         {persons}
       </div>
       // </StyleRoot>
