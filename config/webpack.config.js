@@ -459,7 +459,7 @@ module.exports = function(webpackEnv) {
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
-                localIdentName:'[name]__[local]__[hash:base64:5',
+                localIdentName:'[name]__[local]__[hash:base64:5]',
                 getLocalIdent: getCSSModuleLocalIdent,
               }),
             },

@@ -6,29 +6,61 @@ import classes from "./App.module.css";
 // we use styled dynamic css rules with adding props in to created our stylecomponent.
 
 class App extends Component {
-  // "id" is unique. React check the id and dont render whole page
-  // only render that changed value. Make a "key"is more efficient.
-  state = {
-    persons: [
-      {
-        id: Math.random()
-          .toString(36)
-          .substr(2, 16),
-        name: "Erdinc",
-        age: 30
-      },
-      {
-        id: Math.random()
-          .toString(36)
-          .substr(2, 16),
-        name: "Tugba",
-        age: 33
-      }
-    ]
-  };
+  constructor(props) {
+    // constructor receives props
+    // and you have to call super(props). It brings component props from we imported in this file.
 
-  // there is a difference between render() {} and arrow function (render()=>{}).
-  // If we use arrow function we can use "this" and it refers the function.
+    super(props);
+
+    this.state = {
+      // "id" is unique. React check the id and dont render whole page
+      // only render that changed value. Make a "key"is more efficient.
+
+      persons: [
+        {
+          id: Math.random()
+            .toString(36)
+            .substr(2, 16),
+          name: "Erdinc",
+          age: 30
+        },
+        {
+          id: Math.random()
+            .toString(36)
+            .substr(2, 16),
+          name: "Tugba",
+          age: 33
+        }
+      ]
+    };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return state; //  we should return updated state.
+  }
+
+  // componentWillMount() {
+  //   // it would be something like preparing your state correctly
+  //   //
+  //   console.log("componentWiilMount");
+  // }
+
+  componentDidMount() {
+    // important
+    console.log("[App.js] componentDidMount");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // important for performance improvements
+    console.log("[App.js] shouldComponentUpdate");
+    return true; // we arrange component be rendered of not
+  }
+
+  componentDidUpdate() {
+    // important
+    console.log("[App.js] componentDidUpdate");
+  }
+
   nameChangeHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id;
@@ -68,6 +100,9 @@ class App extends Component {
   };
 
   render() {
+    // there is a difference between render() {} and arrow function (render()=>{}).
+    // If we use arrow function we can use "this" and it refers the function.
+
     let persons = null;
     if (this.state.showPersons) {
       persons = (
@@ -80,9 +115,11 @@ class App extends Component {
     }
     return (
       <div className={classes.App}>
-        <Cockpit 
-        persons={this.state.persons}
-        clicked={this.togglePersonsHandler} />
+        <Cockpit
+          title={this.props.appTitle}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler}
+        />
         {persons}
       </div>
     );
@@ -90,4 +127,14 @@ class App extends Component {
 }
 
 export default App;
-//export default Radium(App);
+
+// statefull component(not automatically class-based component)
+// when we are managing state in component. State and setState.
+// functional component is also statefull component
+// it manages its own state with the useState
+
+// stateless component is a functional component that does no manage state.
+// because you know what happens when you call it.
+
+// class based component is for 'this'
+//functional component is for 'props'. You can use in all other cases.
