@@ -57,3 +57,11 @@ class Persons extends PureComponent {
   }
 }
 export default Persons;
+
+// how react updates the DOM
+// 1-) render() is called
+// 2-) Old Virtual DOM (faster than DOM) and Re-rendered Virtual DOM
+//     (DOM representation in JS)           (render() doesn't immmedietly update the real DOM)
+// 3-) React makes comparasion between them. if it can detect differences,
+//     it reaches out to the real DOM and updates it  
+

@@ -36,7 +36,7 @@ const Cockpit = props => {
       <p className={classesAssign.join(" ")}> {props.title}</p>
       <button
         className={classes.myButton}
-        personsLength={this.state.persons.length} // we make its out of cockpit
+        personsLength={props.personsLength} // we make its out of cockpit
         onClick={props.clicked}
       >
        {props.name ? props.name :'Toggle Person'}

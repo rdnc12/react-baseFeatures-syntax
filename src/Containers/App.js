@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Persons from "../Components/Persons/Persons";
 import Cockpit from "../Components/Cockpit/Cockpit";
+import withClass from "../hoc/withClass";
 import classes from "./App.module.css";
+import Auxiliary from "../hoc/Auxiliary/Auxiliary";
 
 // we use styled dynamic css rules with adding props in to created our stylecomponent.
 
@@ -116,7 +118,7 @@ class App extends Component {
       );
     }
     return (
-      <div className={classes.App}>
+      <Auxiliary>
         <button
           onClick={() => {
             this.setState({ showCockpit: false });
@@ -132,12 +134,12 @@ class App extends Component {
           />
         ) : null}
         {persons}
-      </div>
+      </Auxiliary>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
 
 // statefull component(not automatically class-based component)
 // when we are managing state in component. State and setState.
