@@ -35,7 +35,8 @@ class App extends Component {
         }
       ],
       showPersons: false,
-      showCockpit: true
+      showCockpit: true,
+      changeCounter: 0
     };
   }
 
@@ -84,7 +85,16 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({ persons: persons });
+    // when we are doing state updates that dont depend on the old state. there is nothing
+    // wrong with just passing the object ( this.setState({}))
+    this.setState((prevState, props) => {
+      // it is a better way of updating state when you are depending on the old state.
+
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
+      };
+    });
   };
 
   togglePersonsHandler = () => {
