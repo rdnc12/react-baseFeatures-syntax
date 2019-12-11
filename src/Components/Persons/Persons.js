@@ -51,6 +51,7 @@ class Persons extends PureComponent {
           // if we write only this.props.changed(event, person.id) without callback function,
           // this code runs one time(when app is rendered), and never runs again.
           changed={event => this.props.changed(event, person.id)}
+          isAuth={this.props.isAuthenticated}
         />
       );
     });

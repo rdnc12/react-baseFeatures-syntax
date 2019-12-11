@@ -4,6 +4,7 @@ import Cockpit from "../Components/Cockpit/Cockpit";
 import withClass from "../hoc/withClass";
 import classes from "./App.module.css";
 import Auxiliary from "../hoc/Auxiliary/Auxiliary";
+import AuthContext from "../Context/auth-context";
 
 // we use styled dynamic css rules with adding props in to created our stylecomponent.
 
@@ -36,7 +37,8 @@ class App extends Component {
       ],
       showPersons: false,
       showCockpit: true,
-      changeCounter: 0
+      changeCounter: 0,
+      authenticated: false
     };
   }
 
@@ -113,6 +115,10 @@ class App extends Component {
     this.setState({ persons: persons });
   };
 
+  loginHandler = () => {
+    this.setState({ authenticated: true });
+  };
+
   render() {
     // there is a difference between render() {} and arrow function (render()=>{}).
     // If we use arrow function we can use "this" and it refers the function.
@@ -124,6 +130,7 @@ class App extends Component {
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
           changed={this.nameChangeHandler}
+          isAuthenticated={this.state.authenticated}
         />
       );
     }
@@ -136,14 +143,21 @@ class App extends Component {
         >
           Remove Cockpit
         </button>
-        {this.state.showCockpit ? (
-          <Cockpit
-            title={this.props.appTitle}
-            persons={this.state.persons}
-            clicked={this.togglePersonsHandler}
-          />
-        ) : null}
-        {persons}
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler
+          }}
+        >
+          {this.state.showCockpit ? (
+            <Cockpit
+              title={this.props.appTitle}
+              persons={this.state.persons}
+              clicked={this.togglePersonsHandler}
+            />
+          ) : null}
+          {persons}
+        </AuthContext.Provider>
       </Auxiliary>
     );
   }

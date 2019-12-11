@@ -1,11 +1,13 @@
-
-// useRef is for functional component
-import React, { useEffect, useRef } from "react";
+// useRef and useContext are for functional component
+import React, { useEffect, useRef,useContext } from "react";
 import classes from "./Cockpit.module.css";
+import AuthContext from "../../Context/auth-context";
 
 const Cockpit = props => {
   const toggleBtnRef = useRef(null);
- 
+  const authContext=useContext(AuthContext);
+  // Context API is all about managing data across components without the need to pass
+  // data around with props.
 
   useEffect(() => {
     // it runs for every update and this means we can already use it for
@@ -47,6 +49,9 @@ const Cockpit = props => {
       >
         {props.name ? props.name : "Toggle Person"}
       </button>
+    
+        <button onClick={authContext.login}>Log in</button>
+      
     </div>
   );
 };
